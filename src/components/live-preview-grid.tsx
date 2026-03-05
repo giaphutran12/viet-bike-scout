@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import type { StreamingPreview } from '@/hooks/use-bike-search';
 
-const MAX_VISIBLE = 6;
+const MAX_VISIBLE = 5;
 
 function getHostname(url: string): string {
   try { return new URL(url).hostname.replace('www.', ''); } catch { return url; }
@@ -16,15 +16,17 @@ interface LivePreviewGridProps {
 export function LivePreviewGrid({ previews }: LivePreviewGridProps) {
   const [expanded, setExpanded] = useState(true);
 
-  if (previews.length === 0) return null;
+  if (previews.length === 0 || previews.every(p => p.done)) return null;
 
   const activeCount = previews.filter(p => !p.done).length;
   const doneCount   = previews.filter(p =>  p.done).length;
 
-  // Most recent first; default shows 1, expanded shows up to 6
-  const recent    = [...previews].reverse();
+  // Only render ACTIVE iframes — done agents are removed from DOM to free memory.
+  // Each live Mino iframe is a real browser session; keeping done ones wastes resources.
+  const active    = previews.filter(p => !p.done);
+  const recent    = [...active].reverse();
   const visible   = expanded ? recent.slice(0, MAX_VISIBLE) : recent.slice(0, 1);
-  const moreCount = Math.min(previews.length, MAX_VISIBLE) - 1;
+  const moreCount = Math.min(active.length, MAX_VISIBLE) - 1;
 
   return (
     <div className="space-y-3">

@@ -210,17 +210,25 @@ export function useBikeSearch(): {
               }
 
               if (event.type === 'STREAMING_URL') {
-                setState((prev) => ({
-                  ...prev,
-                  streamingUrls: [
-                    ...prev.streamingUrls,
-                    {
-                      siteUrl: String(event.siteUrl || ''),
-                      streamingUrl: String(event.streamingUrl || ''),
-                      done: false,
-                    },
-                  ],
-                }));
+                const MAX_IFRAMES_PER_SEARCH = 5;
+                setState((prev) => {
+                  const url = String(event.siteUrl || '');
+                  // Dedup: skip if we already have a streaming URL for this site
+                  if (prev.streamingUrls.some(s => s.siteUrl === url)) return prev;
+                  // Hard cap: don't accumulate more than MAX_IFRAMES_PER_SEARCH
+                  if (prev.streamingUrls.length >= MAX_IFRAMES_PER_SEARCH) return prev;
+                  return {
+                    ...prev,
+                    streamingUrls: [
+                      ...prev.streamingUrls,
+                      {
+                        siteUrl: url,
+                        streamingUrl: String(event.streamingUrl || ''),
+                        done: false,
+                      },
+                    ],
+                  };
+                });
               } else if (event.type === 'SHOP_RESULT') {
                 const shop = normalizeShop(event.shop);
                 shop.source = (event.source as BikeShop['source']) ?? 'live';
