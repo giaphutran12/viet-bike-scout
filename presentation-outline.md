@@ -107,11 +107,10 @@ while (true) {
 }
 ```
 
-- TinyFish streams back Server-Sent Events. Two event types matter:
-  - `streamingUrl` — that's the live browser iframe you saw earlier
-  - `COMPLETED` — that's the structured JSON with all the bike data
-- `getReader()` + buffer pattern — SSE events can arrive split across network chunks. Buffer holds incomplete lines until the next chunk completes them.
-- Results stream to the frontend as each shop finishes. You don't wait for the slowest one.
+- TinyFish doesn't send you one big response — it's a stream, like a drip-feed. Data arrives in random-sized chunks over time.
+- The buffer is basically a holding area. Network can cut a message in half mid-sentence — buffer saves the incomplete piece, glues it back together when the next chunk arrives.
+- Two event types come through: `streamingUrl` gives us the live browser iframe, `COMPLETED` gives us the actual bike data as JSON.
+- Results hit the frontend as each shop finishes — you don't wait for the slowest one.
 
 ---
 
