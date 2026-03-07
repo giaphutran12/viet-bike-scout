@@ -12,7 +12,7 @@
 
 ---
 
-## The Hook
+## 0:00 – 0:45 | The Hook
 
 **SHOW: Tab 1 — app with live browser agent iframes running**
 
@@ -22,7 +22,7 @@
 
 ---
 
-## The API — "It's just a fetch call"
+## 0:45 – 1:45 | The API — "It's just a fetch call"
 
 **SHOW: Tab 3 — VS Code, `route.ts` lines 185-197**
 
@@ -53,7 +53,7 @@ const response = await fetch(TINYFISH_SSE_URL, {
 
 ---
 
-## The Parallelism — "Promise.allSettled, that's it"
+## 1:45 – 2:45 | The Parallelism — "Promise.allSettled, that's it"
 
 **SHOW: `route.ts` lines 341-361**
 
@@ -76,7 +76,7 @@ const settled = await Promise.allSettled(tasks);
 
 ---
 
-## The Streaming — "Results arrive as they finish"
+## 2:45 – 3:45 | The Streaming — "Results arrive as they finish"
 
 **SHOW: `route.ts` lines 207-240 — SSE reader**
 
@@ -115,7 +115,7 @@ while (true) {
 
 ---
 
-## The Output — "Structured data from unstructured websites"
+## 3:45 – 4:15 | The Output — "Structured data from unstructured websites"
 
 **SHOW: Tab 1 or Tab 2 — results grid with bike cards**
 
@@ -139,7 +139,7 @@ const typeMap: Record<string, Bike['type']> = {
 
 ---
 
-## Error Handling — "What if an agent fails?"
+## 4:15 – 4:40 | Error Handling — "What if an agent fails?"
 
 **SHOW: `route.ts` lines 254-259 — catch block**
 
@@ -159,7 +159,7 @@ const typeMap: Record<string, Bike['type']> = {
 
 ---
 
-## Wrap Up
+## 4:40 – 5:00 | Wrap Up
 
 **SHOW: Tab 1 — results should be loaded by now. Scroll through them.**
 
