@@ -16,9 +16,9 @@
 
 **SHOW: Tab 1 — app with live browser agent iframes running**
 
-- Renting a motorbike in Vietnam — no aggregator, no Kayak, nothing. 5-10 websites, different layouts, different currencies.
-- Built an app that sends AI browser agents to all of them at the same time.
-- Point at the iframes — these are real browser sessions. Not a mockup. Each one is navigating a different rental shop, handling popups, converting VND to USD. Live, in parallel.
+- Renting a motorbike in Vietnam — no aggregator, no Kayak, nothing. You're checking 5-10 websites, all different layouts, different currencies.
+- So I built an app that sends AI browser agents to all of them at the same time.
+- *(point at the iframe grid)* What you're seeing right now are real browser sessions. Not a mockup. Each one is navigating a different rental shop, handling popups, converting VND to USD. All live, all in parallel.
 
 ---
 
@@ -42,13 +42,13 @@ const response = await fetch(TINYFISH_SSE_URL, {
 });
 ```
 
-- This is the entire TinyFish integration. 11 lines. A standard fetch call.
+- This is the entire TinyFish integration. 11 lines. Just a fetch call.
 - You give it a URL and a goal in plain English. It gives you structured JSON back.
-- No SDK. No complex setup. Just `url` and `goal`.
+- No SDK, no complex setup. Just `url` and `goal`.
 
 **Scroll to GOAL_PROMPT (lines 41-80)**
 
-- The goal is natural language — navigate to pricing page, handle popups, extract all bikes, handle pagination.
+- I just tell it in plain English — go to the pricing page, handle any popups, grab all the bikes, click through pages.
 - TinyFish figures out the rest.
 
 ---
@@ -67,12 +67,12 @@ const tasks = uncachedSites.map((url) =>
 const settled = await Promise.allSettled(tasks);
 ```
 
-- Parallelism is `Promise.allSettled`. Fire all sites at once. No staggering, no rate limiting.
-- TinyFish has no concurrency caps — send 5-6 requests simultaneously, each one launches its own browser agent.
+- The parallelism? It's literally just `Promise.allSettled`. Fire all sites at once. No staggering, no rate limiting.
+- TinyFish has no concurrency caps — I send 5-6 requests at once and each one spins up its own browser agent.
 
 **Briefly show CITY_SITES config (lines 12-39)**
 
-- 18 shops across 4 cities. All niche local sites with no public API. All scraped in parallel.
+- That's 18 shops across 4 cities — all niche local sites, none of them have an API — and they all get scraped at the same time.
 
 ---
 
@@ -153,7 +153,7 @@ const typeMap: Record<string, Bike['type']> = {
 
 - Honestly — haven't seen an agent fully fail. Worst case it returns empty results.
 - But the code handles it: each site runs independently. If one fails, the other 4 still complete.
-- `Promise.allSettled` — not `Promise.all` — so one failure doesn't kill the whole search.
+- That's why I used `allSettled` instead of `Promise.all` — one site crashing doesn't take down the whole search.
 - Supabase cache is also optional — if it's down, the app just skips caching and scrapes live.
 
 ---
@@ -162,10 +162,10 @@ const typeMap: Record<string, Bike['type']> = {
 
 **SHOW: Tab 1 — results should be loaded by now. Scroll through them.**
 
-- 4 cities, 18 shops, all scraped in parallel, results streaming in real-time.
-- The entire backend is one API route — 389 lines, half of that is the cache layer.
+- So what you're looking at right now — 4 cities, 18 shops, all scraped in parallel, results streaming in as they finish.
+- The entire backend is one API route — 389 lines, and half of that is just the cache layer.
 - Built this in about 2 weeks using OpenCode and Nia for context.
-- The takeaway: going from prompt to agent is simpler than you think. The hard part isn't the infrastructure — it's picking the right problem.
+- If there's one thing to take away from this — going from prompt to agent is way simpler than you think. The hard part isn't the code, it's picking the right problem.
 
 ---
 
