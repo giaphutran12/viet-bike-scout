@@ -97,7 +97,7 @@ while (true) {
     if (!line.startsWith("data: ")) continue;
     const event = JSON.parse(line.slice(6));
 
-    if (event.streamingUrl) {
+    if (event.streaming_url) {
       // forward the live iframe URL to the client
     }
     if (event.status === "COMPLETED") {
@@ -109,7 +109,7 @@ while (true) {
 
 - TinyFish doesn't send you one big response — it's a stream, like a drip-feed. Data arrives in random-sized chunks over time.
 - The buffer is basically a holding area. Network can cut a message in half mid-sentence — buffer saves the incomplete piece, glues it back together when the next chunk arrives.
-- Two event types come through: `streamingUrl` gives us the live browser iframe, `COMPLETED` gives us the actual bike data as JSON.
+- Two event types come through: `streaming_url` gives us the live browser iframe, `COMPLETED` gives us the actual bike data as JSON.
 - Results hit the frontend as each shop finishes — you don't wait for the slowest one.
 
 ---
